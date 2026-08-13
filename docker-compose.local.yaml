@@ -1,0 +1,18 @@
+name: prijsprofeet
+
+services:
+  prijsprofeet:
+    build:
+      context: .
+    image: prijsprofeet-mcp:local
+    restart: unless-stopped
+    environment:
+      PRIJSPROFEET_MCP_AUTH_TOKEN: ${PRIJSPROFEET_MCP_AUTH_TOKEN:?set PRIJSPROFEET_MCP_AUTH_TOKEN}
+      PRIJSPROFEET_API_KEY: ${PRIJSPROFEET_API_KEY:-}
+      PRIJSPROFEET_BASE_URL: ${PRIJSPROFEET_BASE_URL:-https://www.prijsprofeet.nl}
+      PRIJSPROFEET_TIMEOUT_MS: ${PRIJSPROFEET_TIMEOUT_MS:-15000}
+      PRIJSPROFEET_USER_AGENT: ${PRIJSPROFEET_USER_AGENT:-PrijsProfeetMCP/1.0 (+https://github.com/thijserven/prijsprofeet-mcp)}
+      PRIJSPROFEET_MCP_HOST: 0.0.0.0
+      PRIJSPROFEET_MCP_PORT: "3000"
+    ports:
+      - "${PRIJSPROFEET_MCP_BIND_ADDRESS:?set PRIJSPROFEET_MCP_BIND_ADDRESS}:3000"
