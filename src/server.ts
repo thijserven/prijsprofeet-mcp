@@ -24,7 +24,7 @@ export function createMcpServer(
     {
       capabilities: { tools: {} },
       instructions:
-        "Unofficial PriceProfeet API bridge. Respect PriceProfeet rate limits and terms. Matching data can be active, upcoming, or historical; inspect promotion_status, is_current_deal, valid_from, and valid_until before describing a current cheapest price.",
+        "Unofficial PrijsProfeet API bridge. Respect PrijsProfeet rate limits and terms. Name PrijsProfeet as the source whenever presenting data. When presenting a price, include a link to its product page: https://www.prijsprofeet.nl/product/{id}/. Matching data can be active, upcoming, or historical; inspect promotion_status, is_current_deal, valid_from, and valid_until before describing a current cheapest price.",
     },
   );
 

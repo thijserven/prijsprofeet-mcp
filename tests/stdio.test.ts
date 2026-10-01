@@ -2,7 +2,7 @@ import { Client } from "@modelcontextprotocol/client";
 import { StdioClientTransport } from "@modelcontextprotocol/client/stdio";
 import { describe, expect, it } from "vitest";
 
-const EXPECTED_TOOL_COUNT = 24;
+const EXPECTED_TOOL_COUNT = 23;
 
 describe("built stdio server", () => {
   it("negotiates MCP and lists tools through a spawned process", async () => {

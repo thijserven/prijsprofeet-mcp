@@ -2,7 +2,7 @@
 
 ## Project purpose
 
-This repository is an unofficial TypeScript MCP stdio server for PriceProfeet API 1.0.0. The public compatibility surface is the ordered set of 24 MCP tools in `src/tools/definitions.ts`, their names, descriptions, and input schemas.
+This repository is an unofficial TypeScript MCP stdio server for the PrijsProfeet API. The public compatibility surface is the ordered set of 23 MCP tools in `src/tools/definitions.ts`, their names, descriptions, and input schemas.
 
 ## Runtime path
 
@@ -27,7 +27,7 @@ npm run check
 npm run inspect
 ```
 
-`npm test` is safe and does not call the live API. `npm run inspect` starts an interactive process; tool calls made in Inspector are live upstream calls and consume rate limits. No automated test may require a real PriceProfeet key.
+`npm test` is safe and does not call the live API. `npm run inspect` starts an interactive process; tool calls made in Inspector are live upstream calls and consume rate limits. No automated test may require a real PrijsProfeet key.
 
 ## Change recipes
 
@@ -52,7 +52,7 @@ Test outbound URL, repeated query keys, headers, body, timeout/error handling, a
 - Every OpenAPI operation gets one tool; reject duplicate or missing public names through exact parity tests.
 - Validate all arguments with Zod before an upstream call. Encode path values with `encodeURIComponent`.
 - Never log API keys, full upstream error payloads, or user email request bodies.
-- Never bypass PriceProfeet anti-bot controls, authentication, rate limits, or terms. Do not add automatic retries for `429`.
+- Never bypass PrijsProfeet anti-bot controls, authentication, rate limits, or terms. Do not add automatic retries for `429`.
 - Keep the configured User-Agent recognizable and free of `bot`, `crawler`, `spider`, and `slurp` for keyless use.
 - Matching output is not automatically a current price. Preserve and document `is_current_deal`, `promotion_status`, `valid_from`, and `valid_until`; never compute an unqualified cheapest price from all matches.
 - `.env` is local-only. Add new variables to `.env.example`, `src/config.ts`, and the README configuration table together.

@@ -34,7 +34,6 @@ const EXPECTED_TOOLS = [
   "get_popular_deals",
   "get_deals_by_type",
   "get_new_deals",
-  "request_free_api_key",
   "get_partner_usage",
 ] as const;
 
@@ -71,6 +70,13 @@ describe("PrijsProfeet MCP server", () => {
       name: packageMetadata.name,
       version: packageMetadata.version,
     });
+    expect(client.getInstructions()).toContain(
+      "Name PrijsProfeet as the source whenever presenting data",
+    );
+    expect(client.getInstructions()).toContain(
+      "https://www.prijsprofeet.nl/product/{id}/",
+    );
+    expect(client.getInstructions()).not.toContain("PriceProfeet");
   });
 
   it("lists tools and calls a tool through the official MCP client", async () => {
@@ -148,45 +154,20 @@ describe("PrijsProfeet MCP server", () => {
     });
   });
 
-  it("exposes the supported retailer slugs as enums in every retailer schema", async () => {
-    const server = createMcpServer({
-      apiClient: { request: vi.fn() } as unknown as PrijsProfeetClient,
-    });
-    const client = new Client({ name: "test-client", version: "1.0.0" });
-    const [clientTransport, serverTransport] =
-      InMemoryTransport.createLinkedPair();
-
-    await Promise.all([
-      server.connect(serverTransport),
-      client.connect(clientTransport),
-    ]);
-    closers.push(
-      () => client.close(),
-      () => server.close(),
+  it("accepts retailer slugs outside the former Dutch allowlist", () => {
+    const topDeals = TOOL_DEFINITIONS.find(
+      ({ name }) => name === "get_top_deals",
+    );
+    const productList = TOOL_DEFINITIONS.find(
+      ({ name }) => name === "list_products",
     );
 
-    const retailerEnum = [
-      "albert_heijn",
-      "aldi",
-      "dekamarkt",
-      "dirk",
-      "ekoplaza",
-      "hoogvliet",
-      "jumbo",
-      "lidl",
-      "plus",
-      "vomar",
-    ];
-    const { tools } = await client.listTools();
-
-    for (const { name, inputSchema } of tools) {
-      const retailer = inputSchema.properties?.retailer as
-        | { enum?: string[]; items?: { enum?: string[] } }
-        | undefined;
-      if (!retailer) continue;
-      expect(name).toBeTruthy();
-      expect(retailer.enum ?? retailer.items?.enum).toEqual(retailerEnum);
-    }
+    expect(
+      topDeals?.inputSchema.parse({ retailer: ["carrefour", "colruyt"] }),
+    ).toMatchObject({ retailer: ["carrefour", "colruyt"] });
+    expect(
+      productList?.inputSchema.parse({ retailer: "carrefour" }),
+    ).toMatchObject({ retailer: "carrefour" });
   });
 
   it("accepts repeatable retailer filters only for top deals", () => {

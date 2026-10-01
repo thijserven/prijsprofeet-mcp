@@ -1,7 +1,7 @@
 {
   "name": "prijsprofeet-mcp",
   "version": "1.0.0",
-  "description": "Unofficial MCP server for the PriceProfeet API",
+  "description": "Unofficial MCP server for the PrijsProfeet API",
   "type": "module",
   "private": true,
   "bin": {
@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node scripts/make-executable.mjs",
-    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run build && npm test",
     "dev": "tsx src/index.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

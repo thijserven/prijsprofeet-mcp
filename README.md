@@ -138,13 +138,13 @@ Every tool validates its input with Zod before an upstream request. Object respo
 | Search   | `search_products`, `get_categories`, `get_filter_stats`                                                                                                                          |
 | Matching | `match_by_ean`, `match_product`, `compare_prices`, `get_ean_stats`                                                                                                               |
 | Deals    | `get_top_deals`, `get_brand_deals`, `get_deals_summary`, `get_popular_deals`, `get_deals_by_type`, `get_new_deals`                                                               |
-| Partner  | `request_free_api_key`, `get_partner_usage`                                                                                                                                      |
+| Partner  | `get_partner_usage`                                                                                                                                                              |
 
 ### API-key requirements
 
 Public product, search, deal, and category operations can run without an API key. A PrijsProfeet Pro key is required for `get_price_history`, `match_by_ean`, `match_product`, `compare_prices`, and `get_ean_stats`. `get_partner_usage` also requires a key.
 
-The MCP tool metadata includes `_meta["nl.prijsprofeet/requiresProPlan"]` so compatible clients can identify Pro-only tools before calling them. Request a free key through the [PrijsProfeet API page](https://www.prijsprofeet.nl/api) or `request_free_api_key`.
+The MCP tool metadata includes `_meta["nl.prijsprofeet/requiresProPlan"]` so compatible clients can identify Pro-only tools before calling them. Request a free key through the [PrijsProfeet API page](https://www.prijsprofeet.nl/api).
 
 ## Configuration
 

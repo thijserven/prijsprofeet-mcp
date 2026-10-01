@@ -12,19 +12,7 @@ const pageSize100 = z
 const limit30 = z.int().min(1).max(30).default(10);
 const productId = z.string().min(1).describe("PrijsProfeet product ID");
 const ean = z.string().regex(/^\d{8,13}$/, "EAN must contain 8-13 digits");
-export const RETAILERS = [
-  "albert_heijn",
-  "aldi",
-  "dekamarkt",
-  "dirk",
-  "ekoplaza",
-  "hoogvliet",
-  "jumbo",
-  "lidl",
-  "plus",
-  "vomar",
-] as const;
-const retailer = z.enum(RETAILERS);
+const retailer = z.string().min(1).describe("PrijsProfeet retailer slug");
 
 export interface ToolDefinition {
   description: string;
@@ -61,7 +49,7 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
   tool(
     "health_check",
     "Health check",
-    "Verify that PriceProfeet services are operational.",
+    "Verify that PrijsProfeet services are operational.",
     z.object({}),
     () => get("/api/v1/health"),
   ),
@@ -316,21 +304,6 @@ export const TOOL_DEFINITIONS: readonly ToolDefinition[] = [
     "Get products scraped this week, newest first.",
     z.object({ limit: limit30 }),
     (input) => get("/api/v1/deals/new", query(input, "limit")),
-  ),
-  tool(
-    "request_free_api_key",
-    "Request free API key",
-    "Ask PriceProfeet to email a free API-key link. Rate limited to five requests per hour per IP.",
-    z.object({
-      email: z.email(),
-      project_name: z.string().min(2).max(80),
-      site_url: z.string().max(200).optional(),
-    }),
-    (input) => ({
-      method: "POST",
-      path: "/api/v1/partner/signup",
-      body: input,
-    }),
   ),
   tool(
     "get_partner_usage",
